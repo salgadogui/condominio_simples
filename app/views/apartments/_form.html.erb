@@ -1,0 +1,36 @@
+<%= form_with(model: apartment, class: "contents") do |form| %>
+  <% if apartment.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(apartment.errors.count, "erro(s)") %> impediram a criação do apartmento:</h2>
+
+      <ul>
+        <% apartment.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :building_id, value: @building.id if @building %>
+
+  <div class="my-5">
+    <p class="mb-2"><%= form.label "Bloco" %></p>
+    <%= form.select :block_id, options_from_collection_for_select(@blocks, :id, :name),
+      { prompt: "Selecione um bloco" },
+      { class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Número do apartmento/sala" %>
+    <%= form.text_field :number, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Valor do aluguel" %>
+    <%= form.text_field :rent_amount, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit apartment.persisted? ? "Atualizar Apartmento" : "Criar Apartamento", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

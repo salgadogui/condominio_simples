@@ -1,0 +1,28 @@
+<div class="w-full">
+  <h1 class="text-4xl font-bold">Inquilinos</h1>
+  <br>
+  <table class="w-full border-collapse border border-gray-300 my-2">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="border p-2">Nome</th>
+        <th class="border p-2">E-mail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tenants.each do |tenant| %>
+        <tr>
+          <td class="border p-2">
+            <div class="flex items-center justify-center">
+              <%= tenant.first_name %> <%= tenant.last_name %>
+            </div>
+          </td>
+          <td class="border p-2">
+            <div class="flex items-center justify-center">
+              <%= tenant.email_address %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

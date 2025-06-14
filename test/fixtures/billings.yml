@@ -1,0 +1,11 @@
+one:
+  contract: one
+  billing_reference_date: 2025-01-04
+  rent_reference_date: 2025-01-04
+  amount: 9.99
+
+two:
+  contract: two
+  billing_reference_date: 2025-01-04
+  rent_reference_date: 2025-01-04
+  amount: 9.99

@@ -1,0 +1,58 @@
+<%= form_with(model: billing, class: "contents") do |form| %>
+  <% if billing.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(billing.errors.count, "error") %> prohibited this billing from being saved:</h2>
+
+      <ul>
+        <% billing.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <br>
+
+  <div class="my-5">
+    <div class="text-xl font-bold my-2">Selecione o imóvel / bloco</div>
+    <%= form.label "Imóvel / Bloco" %>
+    <br>
+    <%= form.select :building_block_id,
+                    buildings_blocks_options,
+                    { prompt: "Selecione um imóvel / bloco" },
+                    { class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <hr>
+
+  <div class="text-xl font-bold my-2">Selecione as datas de competência</div>
+  <div class="my-5">
+      <%= form.label "Mês do Condomínio" %>
+      <%= form.month_field :billing_reference_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+      <%= form.label "Mês do Aluguel" %>
+      <%= form.month_field :rent_reference_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <hr>
+
+  <div class="text-xl font-bold my-5">
+      Insira os valores:
+  </div>
+
+  <%= form.fields_for :charges do |charge_form| %>
+    <div class="my-5">
+      <%= charge_form.label :amount, "Valor: #{charge_form.object.description}" %>
+      <%= charge_form.hidden_field :description, value: charge_form.object.description %>
+      <%= charge_form.text_field :amount, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <div class="inline">
+    <%= form.submit "Criar condomínio", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

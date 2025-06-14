@@ -1,0 +1,51 @@
+<%= form_with(model: contract, data: { controller: 'form' }, class: "contents") do |form| %>
+  <% if contract.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <ul>
+        <% contract.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <p class="mb-2"><%= form.label "Imóvel" %></p>
+    <%= form.select :building_id,
+      options_from_collection_for_select(@buildings, :id, :name),
+      { prompt: "Selecione um imóvel" },
+      { data: { action: "change->form#loadApartments", form_target: "building" },
+        class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <div class="my-5">
+    <p class="mb-2"><%= form.label "Apartamento" %></p>
+    <%= form.select :apartment_id, [], { prompt: "Selecione um apartamento/sala" },
+        { data: { form_target: "apartment" },
+          class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <%= form.hidden_field :landlord_id, value: current_user.id %>
+
+  <div class="my-5">
+    <p class="mb-2"><%= form.label :tenant_id, "Inquilino" %></p>
+    <%= form.select :tenant_id, 
+                    options_from_collection_for_select(@tenants, :id, ->(tenant) { "#{tenant.first_name} #{tenant.last_name}" }), 
+                    { prompt: "Selecione um inquilino" }, 
+                    { class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Data de Início" %>
+    <%= form.date_field :start_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Data de Término" %>
+    <%= form.date_field :end_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline text-center">
+    <%= form.submit "Criar Contrato", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

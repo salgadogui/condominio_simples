@@ -1,0 +1,45 @@
+<div id="<%= dom_id contract %>" class="overflow-x-auto my-5">
+  <tbody>
+    <tr class="hover:bg-gray-200 cursor-pointer" data-href="<%= contract_path(contract) %>">
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.id %>
+        </div>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= I18n.t("#{contract.status}") %>
+        </div>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.apartment.building.name %>
+        </div>
+      </td>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.apartment.number %>
+        </div>
+      </td>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.tenant.first_name %> <%= contract.tenant.last_name %>
+        </div>
+      </td>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.start_date.strftime("%d/%m/%Y") %>
+        </div>
+      </td>
+
+      <td class="border p-2">
+        <div class="flex items-center justify-center gap-0">
+          <%= contract.end_date.strftime("%d/%m/%Y") %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</div>

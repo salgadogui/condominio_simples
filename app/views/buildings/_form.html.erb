@@ -1,0 +1,64 @@
+<%= form_with(model: building, class: "contents") do |form| %>
+  <% if building.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(building.errors.count, "erros") %> não possibilitaram a criação do imóvel:</h2>
+
+      <ul>
+        <% building.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.hidden_field :landlord_id, value: current_user.id %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Nome" %>
+    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Logradouro" %>
+    <%= form.text_field :address_street, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Número" %>
+    <%= form.text_field :address_number, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Bairro" %>
+    <%= form.text_field :address_district, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Cidade" %>
+    <%= form.text_field :address_city, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label "Estado" %>
+    <%= form.text_field :address_state, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cep %>
+    <%= form.text_field :cep, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5 text-center">
+    <%= form.submit building.persisted? ? "Atualizar Imóvel" : "Criar Imóvel", 
+        class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+
+    <% if building.persisted? %>
+      <%= link_to "Voltar para Imóvel", building_path(building), 
+          class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium text-center" %>
+    <% end %>
+
+    <%= link_to "Voltar para Imóveis", buildings_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  </div>
+<% end %>

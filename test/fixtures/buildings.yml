@@ -1,0 +1,9 @@
+one:
+  landlord: landlord
+  name: Building 1
+  address_street: Street One
+  address_number: 123 
+  address_district: District One
+  address_city: City One
+  address_state: State One
+  cep: 100100

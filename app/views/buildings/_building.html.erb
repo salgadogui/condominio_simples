@@ -1,0 +1,35 @@
+<div>
+  <tr class="hover:bg-gray-200 cursor-pointer" data-href="<%= building_path(building) %>">
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.landlord.first_name %> <%= building.landlord.last_name %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.name %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.address_street %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.address_number %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.address_district %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.address_city %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.address_state %>
+    </td>
+
+    <td class="border border-gray-300 px-3 py-2 text-center">
+      <%= building.cep %>
+    </td>
+  </tr>
+</div>

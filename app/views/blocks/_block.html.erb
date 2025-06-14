@@ -1,0 +1,18 @@
+<div id="<%= dom_id block %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Nome:</strong>
+    <%= block.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Apartamentos:</strong>
+
+    <% if block.apartments.present? %>
+      <% block.apartments.each do |apartment| %>
+        <p><%= link_to "#{apartment.number}", apartment_path(apartment) %></p>
+      <% end %>
+    <% else %>
+      <p>Não há apartamentos cadastrados.</p>
+    <% end %>
+  </p>
+</div>

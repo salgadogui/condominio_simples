@@ -1,0 +1,65 @@
+<aside class="bg-gray-800 text-white w-64 h-full p-4 flex-shrink-0 overflow-hidden" data-controller="sidebar">
+    <!-- Toggle Button -->
+    <div class="flex justify-end mb-4">
+        <button
+          class="text-white hover:text-gray-300 transition-colors text-2xl"
+          data-action="click->sidebar#toggle"
+          data-sidebar-target="toggleButton"
+          title="Toggle Sidebar"
+        >
+          ‹
+        </button>
+    </div>
+
+    <!-- Navigation Content -->
+    <div class="transition-opacity duration-300 ease-in-out" data-sidebar-target="content">
+        <nav>
+            <% if Current.user.landlord? %>
+            <ul class="space-y-2">
+                <li class="text-gray-300 font-semibold mb-2">Cadastros</li>
+                    <ul class="list-disc pl-8 space-y-1">
+                        <li><%= link_to "Imóveis", buildings_url, class: "text-white hover:text-gray-300 transition-colors" %></li>
+                        <li><%= link_to "Inquilinos", landlords_url, class: "text-white hover:text-gray-300 transition-colors" %></li>
+                        <li><%= link_to "Contratos", contracts_url, class: "text-white hover:text-gray-300 transition-colors" %></li>
+                    </ul>
+                <li class="text-gray-300 font-semibold mb-2 mt-4">Condomínios/Alugueis</li>
+                    <ul class="list-disc pl-8 space-y-1">
+                        <li><%= link_to "Listar condomínios", billings_url, class: "text-white hover:text-gray-300 transition-colors" %></li>
+                        <li><%= link_to "Gerar condomínios", new_billing_url, class: "text-white hover:text-gray-300 transition-colors" %></li>
+                    </ul>
+            </ul>
+            <% else %>
+                <ul class="space-y-2">
+                    <li class="text-gray-300 font-semibold mb-2">Condomínios (Inquilino)</li>
+                        <ul class="list-disc pl-8 space-y-1">
+                            <li class="text-white">Visualizar condomínios</li>
+                        </ul>
+                </ul>
+            <% end %>
+        </nav>
+    </div>
+</aside>
+
+<style>
+  .sidebar-collapsed {
+    width: 3rem !important;
+    padding: 0.5rem !important;
+  }
+  .sidebar-expanded {
+    width: 16rem !important;
+    padding: 1rem !important;
+  }
+
+  /* Enhanced smooth transitions */
+  aside[data-controller="sidebar"] {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  aside[data-controller="sidebar"] [data-sidebar-target="content"] {
+    transition: opacity 0.3s ease-in-out 0.1s !important;
+  }
+
+  aside[data-controller="sidebar"] button[data-sidebar-target="toggleButton"] {
+    transition: all 0.2s ease-in-out !important;
+  }
+</style>

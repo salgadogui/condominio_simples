@@ -1,0 +1,7 @@
+one:
+  building: one
+  name: Block 1
+
+two:
+  building: one
+  name: Block 2

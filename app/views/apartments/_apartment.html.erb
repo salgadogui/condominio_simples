@@ -1,0 +1,25 @@
+<div id="<%= dom_id apartment %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Bloco:</strong>
+    <%= apartment.block.name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Número:</strong>
+    <%= apartment.number %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Valor do aluguel:</strong>
+    <%= number_to_currency(apartment.rent_amount, unit: "R$ ", separator: ",") %>
+  </p>
+
+  <% contract = Contract.find_by(apartment: apartment, status: "active") %>
+  <% if contract %>
+    <p class="my-5">
+      <strong class="block font-medium mb-1">Contrato ativo:</strong>
+      <%= link_to "#{contract.id}", contract_path(contract), class: "text-blue-500 underline" %>
+    </p>
+  <% end %>
+
+</div>

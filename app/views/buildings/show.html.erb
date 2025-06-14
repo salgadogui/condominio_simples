@@ -1,0 +1,90 @@
+<div class="mt-4 flex justify-center">
+  <div class="w-full max-w-4xl">
+    <% if notice.present? %>
+      <p id="notice" class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block">
+        <%= notice %>
+      </p>
+    <% end %>
+
+    <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold mb-6 text-center">
+        <%= @building.name %>
+        <p>
+          <i class="text-sm font-normal">
+            ID: <%= @building.id %>
+          </i>
+        </p>
+      </h2>
+
+      <hr>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mt-6">
+        <div>
+          <h3 class="font-semibold mb-2">Proprietário</h3>
+          <p><%= @building.landlord.first_name %> <%= @building.landlord.last_name %></p>
+
+          <h3 class="font-semibold mt-4 mb-2">Endereço</h3>
+          <div class="ml-20 text-start">
+            <p>Rua: <%= @building.address_street %>, <%= @building.address_number %></p>
+            <p>Bairro: <%= @building.address_district %></p>
+            <p>Cidade: <%= @building.address_city %> - <%= @building.address_state %></p>
+            <p>CEP: <%= @building.cep %></p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-between">
+          <h3 class="font-semibold mb-2">Blocos</h3>
+          <% if @building.blocks.any? %>
+            <ul class="list-disc pl-5 text-left inline-block">
+              <% @building.blocks.each do |block| %>
+                <li>
+                  <%= link_to block.name, block_path(block), class: "text-blue-500 underline" %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-gray-500">Nenhum bloco cadastrado.</p>
+          <% end %>
+
+          <%= link_to "Adicionar Blocos", new_block_path(building_id: @building.id),
+                class: "mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg" %>
+        </div>
+
+        <div class="flex flex-col items-center justify-between">
+          <h3 class="font-semibold mb-2">Apartamentos</h3>
+          <% if @building.blocks.any? { |block| block.apartments.any? } %>
+            <ul class="list-disc pl-5 text-left inline-block">
+              <% @building.blocks.each do |block| %>
+                <ul><%= block.name + ":" if block.apartments.any? %></ul>
+                <% block.apartments.each do |apartment| %>
+                  <li class="ml-6">
+                    <%= link_to apartment.number, apartment_path(apartment), class: "text-blue-500 underline" %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% elsif @building.blocks.any? %>
+            <p class="text-gray-500">Nenhum apartamento cadastrado.</p>
+          <% else %>
+            <p class="text-gray-500">Nenhum bloco disponível para adicionar apartamentos.</p>
+          <% end %>
+
+          <%= link_to "Adicionar Apartamento", new_apartment_path(building_id: @building.id),
+                class: "mt-3 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 flex justify-center gap-3">
+      <%= link_to "Voltar para Imóveis", buildings_path,
+            class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+      <%= link_to "Editar este Imóvel", edit_building_path(@building), data: { turbo: false },
+            class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+      <%= button_to "Deletar este Imóvel", @building, method: :delete,
+            class: "rounded-lg py-3 px-5 bg-red-500 font-medium text-white",
+            data: { turbo_confirm: "Tem certeza que deseja deletar esse imóvel?" } %>
+    </div>
+  </div>
+</div>

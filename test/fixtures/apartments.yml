@@ -1,0 +1,14 @@
+one:
+  block: one
+  number: "101"
+  rent_amount: 500
+
+two:
+  block: two
+  number: "102"
+  rent_amount: 700
+
+three:
+  block: one
+  number: "103"
+  rent_amount: 500

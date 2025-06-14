@@ -1,0 +1,11 @@
+one:
+  billing: one
+  description: Charge One
+  amount: 9.99
+  charge_type: 1
+
+two:
+  billing: two
+  description: Charge Two
+  amount: 9.99
+  charge_type: 1

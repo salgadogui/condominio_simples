@@ -1,0 +1,204 @@
+pt-BR:
+  active: "Ativo"
+  expired: "Expirado"
+  cancelled: "Cancelado"
+
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %B"
+      long: "%d de %B de %Y"
+    month_names:
+      -
+      - Janeiro
+      - Fevereiro
+      - Março
+      - Abril
+      - Maio
+      - Junho
+      - Julho
+      - Agosto
+      - Setembro
+      - Outubro
+      - Novembro
+      - Dezembro
+    abbr_month_names:
+      -
+      - Jan
+      - Fev
+      - Mar
+      - Abr
+      - Mai
+      - Jun
+      - Jul
+      - Ago
+      - Set
+      - Out
+      - Nov
+      - Dez
+
+  activerecord:
+    models:
+      contract: "Contrato"
+      apartment: "Apartamento/Sala"
+      tenant: "Inquilino"
+    attributes:
+      apartment:
+        block: "Bloco"
+        block_id: "ID do Bloco"
+        number: "Número"
+        rent_amount: "Valor do Aluguel"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      billing:
+        contract_id: "Contrato"
+        billing_reference_date: "Data de Referência do Pagamento"
+        rent_reference_date: "Data de Referência do Aluguel"
+        amount: "Valor"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+        status: "Status"
+
+      block:
+        building_id: "Prédio"
+        name: "Nome"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      building:
+        landlord_id: "Proprietário"
+        name: "Nome"
+        address_street: "Rua"
+        address_number: "Número"
+        address_district: "Bairro"
+        address_city: "Cidade"
+        address_state: "Estado"
+        cep: "CEP"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      charge:
+        billing_id: "Fatura"
+        description: "Descrição"
+        amount: "Valor"
+        charge_type: "Tipo de Cobrança"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      contract:
+        apartment: "Apartamento/Sala"
+        tenant: "Inquilino"
+        apartment_id: "Apartamento"
+        landlord_id: "Proprietário"
+        tenant_id: "Inquilino"
+        start_date: "Data de Início"
+        end_date: "Data de Término"
+        status: "Status"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      session:
+        user_id: "Usuário"
+        ip_address: "Endereço IP"
+        user_agent: "Agente do Usuário"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+      user:
+        email_address: "E-mail"
+        password_digest: "Senha"
+        first_name: "Nome"
+        last_name: "Sobrenome"
+        landlord_id: "Proprietário"
+        role: "Função"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+
+    errors:
+      models:
+        apartment:
+          attributes:
+            block:
+              required: "deve ser informado"
+            number:
+              blank: "não pode ficar em branco"
+            rent_amount:
+              blank: "não pode ficar em branco"
+        billing:
+          attributes:
+            contract_id:
+              blank: "deve ser informado"
+            status:
+              blank: "não pode ficar em branco"
+        block:
+          attributes:
+            building_id:
+              blank: "deve ser informado"
+            name:
+              blank: "não pode ficar em branco"
+        building:
+          attributes:
+            landlord_id:
+              blank: "deve ser informado"
+            name:
+              blank: "não pode ficar em branco"
+            address_street:
+              blank: "não pode ficar em branco"
+            address_number:
+              blank: "não pode ficar em branco"
+            address_district:
+              blank: "não pode ficar em branco"
+            address_city:
+              blank: "não pode ficar em branco"
+            address_state:
+              blank: "não pode ficar em branco"
+            cep:
+              blank: "não pode ficar em branco"
+        charge:
+          attributes:
+            billing_id:
+              blank: "deve ser informado"
+            description:
+              blank: "não pode ficar em branco"
+            amount:
+              blank: "não pode ficar em branco"
+            charge_type:
+              blank: "não pode ficar em branco"
+        contract:
+          attributes:
+            apartment:
+              required: "deve ser informado"
+            tenant:
+              required: "deve ser informado"
+            apartment_id:
+              blank: "deve ser informado"
+            landlord_id:
+              blank: "deve ser informado"
+            tenant_id:
+              blank: "deve ser informado"
+            start_date:
+              blank: "não pode ficar em branco"
+            end_date:
+              blank: "não pode ficar em branco"
+            status:
+              blank: "não pode ficar em branco"
+        session:
+          attributes:
+            user_id:
+              blank: "deve ser informado"
+        user:
+          attributes:
+            email_address:
+              blank: "não pode ficar em branco"
+            password_digest:
+              blank: "não pode ficar em branco"
+            first_name:
+              blank: "não pode ficar em branco"
+            last_name:
+              blank: "não pode ficar em branco"
+            role:
+              blank: "não pode ficar em branco"
+
+      messages:
+        blank: "não pode ficar em branco"

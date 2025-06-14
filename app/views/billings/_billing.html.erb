@@ -1,0 +1,57 @@
+<div id="<%= dom_id billing %>">
+  <tr data-href="<%= billing_path(billing) %>">
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.contract_id %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.contract.apartment.building.name %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.contract.apartment.number %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.contract.tenant.first_name %> <%= billing.contract.tenant.last_name %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.billing_reference_period %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0">
+        <%= billing.rent_reference_period %>
+      </div>
+    </td>
+
+    <td class="border p-2 font-bold">
+      <div class="flex items-center justify-center gap-0">
+        <%= number_to_currency(billing.amount, unit: "R$ ", separator: ",", delimiter: ".") %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0 font-bold text-blue-600">
+        <%= link_to "PDF", billing_path(billing, format: :pdf) %>
+      </div>
+    </td>
+
+    <td class="border p-2 ">
+      <div class="flex items-center justify-center gap-0 font-bold text-red-600">
+        <%= link_to "Deletar Cobrança", billing, data: { turbo_method: :delete, turbo_confirm:  "Tem certeza que deseja deletar essa cobrança?" } %>
+      </div>
+    </td>
+  </tr>
+</div>

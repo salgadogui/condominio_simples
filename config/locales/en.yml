@@ -1,0 +1,8 @@
+pt-BR:
+  activerecord:
+    attributes:
+      contract:
+        statuses:
+          active: "Ativo"
+          expired: "Expirado"
+          cancelled: "Cancelado"

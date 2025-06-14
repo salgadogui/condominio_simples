@@ -1,0 +1,23 @@
+one:
+  apartment: one
+  landlord: landlord
+  tenant: tenant_one
+  start_date: 2025-01-03
+  end_date: 2026-01-03
+  status: "active"
+
+two:
+  apartment: two
+  landlord: landlord
+  tenant: tenant_two
+  start_date: 2025-01-03
+  end_date: 2026-01-03
+  status: "active"
+
+three:
+  apartment: three
+  landlord: landlord
+  tenant: tenant_two
+  start_date: 2025-02-03
+  end_date: 2026-02-03
+  status: "active"

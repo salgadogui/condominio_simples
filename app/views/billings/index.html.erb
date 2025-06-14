@@ -1,0 +1,278 @@
+<div data-controller="pdf-modal">
+  <div class="w-full">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg" id="notice"><%= notice %></p>
+    <% end %>
+
+    <% if alert = flash[:alert] %>
+      <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg" id="alert"><%= alert %></p>
+    <% end %>
+
+    <% content_for :title, "Condomínios/Alugueis" %>
+
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">Condomínios/Alugueis</h1>
+    </div>
+
+    <br>
+
+    <!-- Summary Section -->
+    <% unless @grouped_billings.empty? %>
+      <% total_billings = @grouped_billings.values.flatten.count %>
+      <% total_amount = @grouped_billings.values.flatten.sum(&:amount) %>
+      <% total_groups = @grouped_billings.count %>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+        <h2 class="text-lg font-semibold text-blue-800 mb-4">Resumo Geral</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-blue-600"><%= total_groups %></p>
+            <p class="text-sm text-blue-700"><%= pluralize(total_groups, 'grupo', 'grupos') %></p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-blue-600"><%= total_billings %></p>
+            <p class="text-sm text-blue-700"><%= pluralize(total_billings, 'cobrança', 'cobranças') %></p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-green-600">
+              <%= number_to_currency(total_amount, unit: "R$ ", separator: ",", delimiter: ".") %>
+            </p>
+            <p class="text-sm text-blue-700">Valor total</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="billings" class="min-w-full">
+      <div class="flex flex-col gap-8">
+        <% @grouped_billings.each_with_index do |(group_key, billings), index| %>
+          <div class="w-full">
+            <div class="border border-gray-300 rounded-lg overflow-hidden">
+              <!-- Billings Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                  <thead>
+                    <!-- Group Header as first row in thead -->
+                    <tr class="bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors"
+                        onclick="toggleGroup(<%= index %>)">
+                      <td colspan="8" class="p-4 border-b border-gray-300">
+                        <div class="flex justify-between items-center">
+                          <div class="flex items-center">
+                            <span id="arrow-<%= index %>" class="text-xs mr-6 pr-2 transform transition-transform flex-shrink-0" style="transform: rotate(90deg);">▶</span>
+                            <div>
+                              <h2 class="text-xl font-bold text-gray-800 whitespace-nowrap ml-6">
+                                <%= group_key[:building].name %> - <%= group_key[:block].name %>
+                              </h2>
+                              <p class="text-gray-600 whitespace-nowrap ml-6">
+                                <%= I18n.l(Date.new(group_key[:year], group_key[:month], 1), format: '%B') %> de <%= group_key[:year] %>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="text-right flex-shrink-0">
+                            <p class="text-sm text-gray-600"><%= pluralize(billings.count, 'cobrança', 'cobranças') %></p>
+                            <p class="text-lg font-bold text-green-600 whitespace-nowrap">
+                              Total: <%= number_to_currency(billings.sum(&:amount), unit: "R$ ", separator: ",", delimiter: ".") %>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <!-- Column Headers as second row in thead -->
+                    <tr class="bg-gray-50" id="table-headers-<%= index %>">
+                      <th class="border-b border-gray-200 p-4 text-left">Contrato No.</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Apartamento No.</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Inquilino</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Data de referência (condomínio)</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Data de referência (aluguel)</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Valor total</th>
+                      <th class="border-b border-gray-200 p-4 text-left">PDF</th>
+                      <th class="border-b border-gray-200 p-4 text-left">Ações</th>
+                    </tr>
+                  </thead>
+
+                  <!-- Data Rows -->
+                  <tbody id="table-body-<%= index %>">
+                    <% billings.each do |billing| %>
+                      <tr class="hover:bg-gray-50" data-href="<%= billing_path(billing) %>">
+                        <td class="border-b border-gray-100 p-4">
+                          <%= billing.contract_id %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= billing.contract.apartment.number %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= billing.contract.tenant.first_name %> <%= billing.contract.tenant.last_name %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= billing.billing_reference_period %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= billing.rent_reference_period %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4 font-bold">
+                          <%= number_to_currency(billing.amount, unit: "R$ ", separator: ",", delimiter: ".") %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= link_to "PDF", billing_path(billing, format: :pdf),
+                              class: "font-bold text-blue-600 hover:text-blue-800",
+                              data: { action: "click->pdf-modal#open" } %>
+                        </td>
+                        <td class="border-b border-gray-100 p-4">
+                          <%= link_to "Deletar Cobrança", billing,
+                              data: { turbo_method: :delete, turbo_confirm: "Tem certeza que deseja deletar essa cobrança?" },
+                              class: "font-bold text-red-600 hover:text-red-800" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @grouped_billings.empty? %>
+        <div class="text-center py-12">
+          <p class="text-gray-500 text-lg">Nenhuma cobrança encontrada.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- PDF Modal -->
+  <style>
+    .pdf-modal-overlay {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      z-index: 9999 !important;
+      background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .pdf-modal-content {
+      background-color: white !important;
+      opacity: 1 !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+    }
+
+    .pdf-modal-header {
+      background-color: white !important;
+      opacity: 1 !important;
+      z-index: 10 !important;
+      border-top-left-radius: 16px !important;
+      border-top-right-radius: 16px !important;
+    }
+
+    .pdf-modal-body {
+      background-color: white !important;
+    }
+
+    .pdf-modal-footer {
+      background-color: #f9fafb !important;
+      border-bottom-left-radius: 16px !important;
+      border-bottom-right-radius: 16px !important;
+    }
+  </style>
+
+  <div data-pdf-modal-target="modal" class="pdf-modal-overlay flex items-center justify-center hidden" style="display: none;">
+    <div class="pdf-modal-content bg-white shadow-xl w-11/12 h-5/6 flex flex-col mx-4 my-8"
+         data-action="click->pdf-modal#stopPropagation">
+      <!-- Modal Header -->
+      <div class="pdf-modal-header flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0">
+        <h3 class="text-lg font-semibold text-gray-900">Visualizar PDF</h3>
+        <button type="button"
+                data-action="click->pdf-modal#close"
+                class="text-gray-400 hover:text-gray-600 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="pdf-modal-body flex-1 relative min-h-0">
+        <!-- Loading State -->
+        <div data-pdf-modal-target="loading" class="absolute inset-0 flex items-center justify-center bg-white hidden"
+             style="background-color: white !important; z-index: 5;">
+          <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p class="mt-4 text-gray-600">Carregando PDF...</p>
+          </div>
+        </div>
+
+        <!-- PDF Iframe -->
+        <iframe data-pdf-modal-target="iframe"
+                data-action="load->pdf-modal#onIframeLoad"
+                class="w-full h-full border-0 hidden"
+                title="PDF Viewer">
+        </iframe>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pdf-modal-footer p-4 border-t border-gray-200 flex-shrink-0">
+        <div class="flex justify-end space-x-3">
+          <button type="button"
+                  data-action="click->pdf-modal#close"
+                  class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleGroup(index) {
+    const tableHeaders = document.getElementById(`table-headers-${index}`);
+    const tableBody = document.getElementById(`table-body-${index}`);
+    const arrow = document.getElementById(`arrow-${index}`);
+
+    // Check if the elements are currently hidden
+    const isHidden = tableHeaders.style.display === 'none' || tableHeaders.classList.contains('hidden');
+
+    if (isHidden) {
+      // Show the content (expand)
+      tableHeaders.style.display = 'table-row';
+      tableBody.style.display = 'table-row-group';
+      tableHeaders.classList.remove('hidden');
+      tableBody.classList.remove('hidden');
+      arrow.style.transform = 'rotate(90deg)';
+    } else {
+      // Hide the content (collapse)
+      tableHeaders.style.display = 'none';
+      tableBody.style.display = 'none';
+      tableHeaders.classList.add('hidden');
+      tableBody.classList.add('hidden');
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // Initialize all groups as expanded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set all arrows to expanded state (pointing down)
+    const arrows = document.querySelectorAll('[id^="arrow-"]');
+    arrows.forEach(arrow => {
+      arrow.style.transform = 'rotate(90deg)';
+    });
+
+    // Ensure all table content is visible initially
+    const tableHeaders = document.querySelectorAll('[id^="table-headers-"]');
+    const tableBodies = document.querySelectorAll('[id^="table-body-"]');
+
+    tableHeaders.forEach(header => {
+      header.style.display = 'table-row';
+      header.classList.remove('hidden');
+    });
+
+    tableBodies.forEach(body => {
+      body.style.display = 'table-row-group';
+      body.classList.remove('hidden');
+    });
+  });
+</script>

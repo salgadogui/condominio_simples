@@ -1,0 +1,22 @@
+landlord:
+  email_address: landlord@example.com
+  password_digest: <%= BCrypt::Password.create("123") %>
+  role: landlord
+  first_name: Landlord
+  last_name: One
+
+tenant_one:
+  email_address: tenant1@example.com
+  password_digest: <%= BCrypt::Password.create("123") %>
+  role: tenant
+  landlord: landlord
+  first_name: Tenant
+  last_name: One
+
+tenant_two:
+  email_address: tenant2@example.com
+  password_digest: <%= BCrypt::Password.create("123") %>
+  role: tenant
+  landlord: landlord
+  first_name: Tenant
+  last_name: Two
