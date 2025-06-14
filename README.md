@@ -2,6 +2,8 @@
 
 Sistema de gerenciamento de condomínios desenvolvido em Ruby on Rails.
 
+![Exemplo de tela do sistema](docs/screenshot.png)
+
 ## Requisitos
 
 - Ruby 3.2.2 ou superior
@@ -29,10 +31,9 @@ rails db:create
 rails db:migrate
 ```
 
-4. Inicie o servidor:
+4. Inicie o servidor e carregue os assets:
 ```bash
 ./bin/dev
-
 ```
 
 A aplicação estará disponível em `http://localhost:3000`
